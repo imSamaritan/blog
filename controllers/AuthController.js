@@ -2,7 +2,7 @@ import User from '../models/User.js'
 import { hashPassword, createToken, maxAge } from '../utility/utils.js'
 import { validateSignupInput, createErrorObject } from '../utility/validation.js'
 
-const userModel = User.model('users')
+const user = User.model('users')
 
 async function signupPOST(req, res) {
   const { error } = validateSignupInput(req.body)
@@ -18,14 +18,14 @@ async function signupPOST(req, res) {
 
   try {
     //Check if user with given email exists
-    const [emailExists] = await userModel.emailExists(req.body.email)
+    const [emailExists] = await user.emailExists(req.body.email)
     if (emailExists.recordsCount > 0) {
       const errorObject = createErrorObject('email', 'User email address, already registered!')
       return res.status(400).json(errorObject)
     }
 
     //Create a user
-    const createdUser = await userModel.create(req.body)
+    const createdUser = await user.create(req.body)
     if (createdUser) {
       const { id, username } = createdUser
       const payload = { id, username }
