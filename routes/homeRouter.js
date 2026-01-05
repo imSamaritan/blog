@@ -1,9 +1,9 @@
 import express from 'express'
-import authMiddleware from '../middleware/authMiddleware.js'
+import { auth } from '../middleware/authMiddleware.js'
 const router = express.Router()
 
-router.get('/feeds', authMiddleware, function (req, res) {
-  return res.render('home', { title: 'Home' })
+router.get('/feeds', auth, function (req, res) {
+  return res.render('home', { title: 'Home'})
 })
 
 export { router as homeRouter }

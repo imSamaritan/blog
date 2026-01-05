@@ -1,4 +1,8 @@
 <%- include('partials/header') %>
   <h1>New Feeds | Home</h1>
-<%- include('partials/footer') %>
+  <% if (user != null) {%>
+    <p>Username: <%= user.username %></p>
+  <% } else { %>
 
+  <% } %>
+<%- include('partials/footer') %>

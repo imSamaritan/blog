@@ -16,22 +16,19 @@ export async function hashPassword(password) {
 
 export function createToken(payload) {
   return new Promise(function (resolve, reject) {
-    jwt.sign(payload, JWT_SECRET,{expiresIn: maxAge }, function (error, token) {
-      if (error) 
-        reject(error)
-      else 
-        resolve(token)
-    })
+    jwt.sign(payload, JWT_SECRET, { expiresIn: maxAge }, function (error, token) {
+        if (error) reject(error)
+        else resolve(token)
+      },
+    )
   })
 }
 
 export function verifyToken(token) {
-  return jwt.verify(token, JWT_SECRET, function(error, decoded) {
-    if (error) {
-      return {error: error.message, data: null}
-    }
-    else {
-      return {error: null, data: decoded}
-    }
-  })
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET)
+    return { error: null, data: decoded }
+  } catch (error) {
+    return { error: error.message, data: null }
+  }
 }
